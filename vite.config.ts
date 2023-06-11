@@ -28,7 +28,6 @@ export default defineConfig({
         }),
       },
     }),
-
     // https://github.com/hannoeru/vite-plugin-pages
     Pages(),
 
@@ -55,7 +54,6 @@ export default defineConfig({
     // see uno.config.ts for config
     UnoCSS(),
   ],
-
   // https://github.com/vitest-dev/vitest
   test: {
     environment: 'jsdom',

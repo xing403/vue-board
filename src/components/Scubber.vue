@@ -29,12 +29,12 @@ watch([scrubbing, elementX], () => {
 </script>
 
 <template>
-  <div ref="scrubber" class="relative h-2 cursor-pointer select-none rounded bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10" @mousedown="scrubbing = true">
-    <div class="relative h-full w-full overflow-hidden rounded">
-      <div class="absolute left-0 top-0 h-full w-full rounded bg-emerald-700 opacity-30" :style="{ transform: `translateX(${secondary / max * 100 - 100}%)` }" />
-      <div class="relative h-full w-full rounded bg-emerald-500" :style="{ transform: `translateX(${value / max * 100 - 100}%)` }" />
+  <div ref="scrubber" relative h-2 cursor-pointer select-none rounded bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10 @mousedown="scrubbing = true">
+    <div relative h-full w-full overflow-hidden rounded>
+      <div absolute left-0 top-0 h-full w-full rounded bg-blue-5 opacity-30 :style="{ transform: `translateX(${secondary / max * 100 - 100}%)` }" />
+      <div relative h-full w-full rounded bg-blue-5 :style="{ transform: `translateX(${value / max * 100 - 100}%)` }" />
     </div>
-    <div class="absolute inset-0 opacity-0 hover:opacity-100" :class="{ '!opacity-100': scrubbing }">
+    <div absolute inset-0 opacity-0 hover:opacity-100 :class="{ '!opacity-100': scrubbing }">
       <slot :pending-value="pendingValue" :position="`${Math.max(0, Math.min(elementX, elementWidth))}px`" />
     </div>
   </div>

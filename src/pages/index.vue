@@ -3,50 +3,71 @@ import { useDrauu } from '@vueuse/integrations/useDrauu'
 import { toRefs } from '@vueuse/core'
 import Scrubber from '~/components/Scubber.vue'
 
-const colors = ref(['black', '#ef4444', '#22c55e', '#3b82f6'])
+const colors = ref(['black', '#ef4444', '#22c55e', '#3b82f6', 'orange', 'white'])
 const target = ref()
 const { undo, redo, canUndo, canRedo, clear, brush } = useDrauu(target, {
   brush: {
     color: 'black', // 刷子颜色
-    size: 1, // 刷子宽度
+    size: 3, // 刷子宽度
   },
 })
+const broadBg = ref('white')
 const { mode, color, size } = toRefs(brush)
-
 function initBrush() {
   color.value = 'black'
-  size.value = 1
+  size.value = 3
 }
+
 function handleChangeBrushColor(_color: string) {
   color.value = _color
 }
-function handlechandeBrushLineSize(_size: number) {
-  size.value = _size
-}
-
 initBrush()
 </script>
 
 <template>
-  <div position="absolute" flex="~ row">
+  <div class="header" flex="~ row" absolute left="50%" transform="translate-x--50%" mt-10px h-6 grid-items-center align="center">
     <button
-      v-for="_color in colors" :key="_color" :class="{ active: _color === color }" m="r-1"
-      :style="{ background: _color }" w="6" h="6" border="2 dark:(light-900 opacity-50) rounded-full" @click="handleChangeBrushColor(_color)"
+      v-for="_color in colors" :key="_color" :class="{ active: _color === color }" class="_button"
+      :style="{ background: _color }" border="2 dark:(light-900 opacity-50) rounded-full"
+      @click="handleChangeBrushColor(_color)"
     />
-    <div w="200" h-24px lh-24px>
-      <Scrubber v-model="size" w="full" h="full" :min="1" :max="10" />
-    </div>
-    <button w="6" h="6" m="r-1" :disabled="!canUndo" :style="{ color: canUndo ? 'black' : '#999' }" i-carbon-undo icon-btn @click="undo()" />
-    <button w="6" h="6" m="r-1" :disabled="!canRedo" :style="{ color: canRedo ? 'black' : '#999' }" i-carbon-redo icon-btn @click="redo()" />
-    <button w="6" h="6" m="r-1" i-carbon-clean icon-btn @click="clear()" />
+    <Scrubber v-model="size" w="100" :min="1" mr-5 h-1 :max="10" />
+    <button class="_button" :disabled="!canUndo" i-carbon-undo icon-btn @click="undo()" />
+    <button class="_button" :disabled="!canRedo" i-carbon-redo icon-btn @click="redo()" />
+    <button class="_button" i-carbon-clean icon-btn @click="clear()" />
 
-    <button w="6" h="6" m="r-1" :class="{ active: brush.mode === 'draw' }" i-carbon-pen @click="mode = 'draw'" />
-    <button w="6" h="6" m="r-1" :class="{ active: brush.mode === 'line' && !brush.arrowEnd }" i-mdi-slash-forward @click="mode = 'line'" />
-    <button w="6" h="6" m="r-1" :class="{ active: brush.mode === 'rectangle' }" i-carbon-checkbox @click="mode = 'rectangle'" />
-    <button w="6" h="6" m="r-1" :class="{ active: brush.mode === 'ellipse' }" i-mdi-circle-outline @click="mode = 'ellipse'" />
-    <button w="6" h="6" m="r-1" dark:i-carbon-awake i-carbon-asleep @click="toggleDark()" />
+    <button class="_button" :class="{ active: brush.mode === 'draw' }" i-carbon-pen icon-btn @click="mode = 'draw'" />
+    <button
+      class="_button" :class="{ active: brush.mode === 'line' && !brush.arrowEnd }" i-mdi-slash-forward icon-btn
+      @click="mode = 'line'"
+    />
+    <button
+      class="_button" :class="{ active: brush.mode === 'rectangle' }" i-carbon-checkbox icon-btn
+      @click="mode = 'rectangle'"
+    />
+    <button
+      class="_button" :class="{ active: brush.mode === 'ellipse' }" i-mdi-circle-outline icon-btn
+      @click="mode = 'ellipse'"
+    />
+    <button
+      class="_button" :class="{ active: brush.mode === 'eraseLine' }" i-carbon-erase icon-btn
+      @click="mode = 'eraseLine'"
+    />
+    <button class="_button" i-carbon-awake dark:i-carbon-asleep @click="toggleDark()" />
   </div>
   <div h="full">
-    <svg ref="target" w="full" h="full" bg="white" />
+    <svg ref="target" w="full" h="full" :bg="broadBg" />
   </div>
 </template>
+
+<style>
+.header {
+  ._button {
+    @apply w-6 h-6 mr-1
+  }
+
+  .active {
+    @apply text-red-800 border-gray-400
+  }
+}
+</style>
