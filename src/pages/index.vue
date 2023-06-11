@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDrauu } from '@vueuse/integrations/useDrauu'
-import { toRefs } from '@vueuse/core'
+import { toRefs, watchDeep } from '@vueuse/core'
 import Scrubber from '~/components/Scubber.vue'
 
 const colors = ref(['black', '#ef4444', '#22c55e', '#3b82f6', 'orange', 'white'])
@@ -11,13 +11,15 @@ const { undo, redo, canUndo, canRedo, clear, brush } = useDrauu(target, {
     size: 3, // 刷子宽度
   },
 })
-const broadBg = ref('white')
 const { mode, color, size } = toRefs(brush)
+const background = ref<'white' | '#868e96'>('white')
 function initBrush() {
   color.value = 'black'
   size.value = 3
 }
-
+watchDeep(isDark, (value) => {
+  background.value = value ? '#868e96' : 'white'
+})
 function handleChangeBrushColor(_color: string) {
   color.value = _color
 }
@@ -25,7 +27,10 @@ initBrush()
 </script>
 
 <template>
-  <div class="header" flex="~ row" absolute left="50%" transform="translate-x--50%" mt-10px h-6 grid-items-center align="center">
+  <div
+    class="header" flex="~ row" absolute left="50%" transform="translate-x--50%" mt-10px h-6 grid-items-center
+    align="center"
+  >
     <button
       v-for="_color in colors" :key="_color" :class="{ active: _color === color }" class="_button"
       :style="{ background: _color }" border="2 dark:(light-900 opacity-50) rounded-full"
@@ -56,7 +61,7 @@ initBrush()
     <button class="_button" i-carbon-awake dark:i-carbon-asleep @click="toggleDark()" />
   </div>
   <div h="full">
-    <svg ref="target" w="full" h="full" :bg="broadBg" />
+    <svg ref="target" w="full" h="full" :bg="background" />
   </div>
 </template>
 
@@ -67,7 +72,7 @@ initBrush()
   }
 
   .active {
-    @apply text-red-800 border-gray-400
+    @apply text-blue-500 border-gray-400
   }
 }
 </style>
