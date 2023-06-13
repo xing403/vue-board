@@ -40,7 +40,6 @@ initBrush()
     <button class="_button" :disabled="!canUndo" i-carbon-undo icon-btn @click="undo()" />
     <button class="_button" :disabled="!canRedo" i-carbon-redo icon-btn @click="redo()" />
     <button class="_button" i-carbon-clean icon-btn @click="clear()" />
-
     <button class="_button" :class="{ active: brush.mode === 'draw' }" i-carbon-pen icon-btn @click="mode = 'draw'" />
     <button
       class="_button" :class="{ active: brush.mode === 'line' && !brush.arrowEnd }" i-mdi-slash-forward icon-btn
@@ -65,7 +64,7 @@ initBrush()
   </div>
 </template>
 
-<style>
+<style lang="postcss">
 .header {
   ._button {
     @apply w-6 h-6 mr-1
