@@ -16,6 +16,7 @@
     "@vueuse/core": "^10.1.2",
     "@vueuse/integrations": "^10.1.2",
     "drauu": "^0.3.2",
+    "element-plus": "^2.3.6",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2"
   },
