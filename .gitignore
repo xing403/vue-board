@@ -3,8 +3,10 @@
 .vite-ssg-temp
 *.local
 dist
+dist-electron
 dist-ssr
 node_modules
+release
 .vscode/
 .idea/
 *.log

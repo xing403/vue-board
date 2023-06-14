@@ -1,3 +1,4 @@
+/* eslint-disable import/default */
 /// <reference types="vitest" />
 
 import path from 'node:path'
@@ -9,6 +10,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from 'unocss/vite'
 import VueMacros from 'unplugin-vue-macros/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import electron from 'vite-plugin-electron'
 
 export default defineConfig({
   resolve: {
@@ -29,10 +31,7 @@ export default defineConfig({
         }),
       },
     }),
-    // https://github.com/hannoeru/vite-plugin-pages
     Pages(),
-
-    // https://github.com/antfu/unplugin-auto-import
     AutoImport({
       imports: [
         'vue',
@@ -47,18 +46,12 @@ export default defineConfig({
       ],
       vueTemplate: true,
     }),
-
-    // https://github.com/antfu/vite-plugin-components
     Components({
       dts: true,
     }),
-
-    // https://github.com/antfu/unocss
-    // see uno.config.ts for config
     UnoCSS(),
+    electron({
+      entry: 'build/index.ts',
+    }),
   ],
-  // https://github.com/vitest-dev/vitest
-  test: {
-    environment: 'jsdom',
-  },
 })
