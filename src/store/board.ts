@@ -15,11 +15,12 @@ const useBoardStore = defineStore('config',
       return instance.value
     }
     function changeMode(mode: any) {
-      // instance.value.brush
       brush.value.mode = mode
     }
-
-    function changeColor(_color: any) {
+    function changeArrow(enable: boolean) {
+      brush.value.arrowEnd = enable
+    }
+    function changeColor(_color: string) {
       brush.value.color = _color
     }
     return {
@@ -30,6 +31,7 @@ const useBoardStore = defineStore('config',
       init,
       changeMode,
       changeColor,
+      changeArrow,
     }
   },
 )
