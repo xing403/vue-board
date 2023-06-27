@@ -1,2 +1,9 @@
 # Vue Board
-Vue 画板
+A drawing board
+
+## Draw type
+- line
+- rectangle
+- ellipse
+- curve
+- arrow
